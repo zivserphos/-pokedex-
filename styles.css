@@ -1,6 +1,10 @@
 #body {
     background-color: #d4d3dd;
 }
+#pokedes {
+    height: 40px;
+    width: 50px;
+}
 
 .fas {
     font-size: 40px;
@@ -29,3 +33,13 @@ body,
     border-radius: 20px;
     width: 22%;
 } 
+
+.modal {
+    color: orange;
+    display: block;
+}
+
+.pokemonImg {
+    width: 200px;
+    height: 200px;
+}

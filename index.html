@@ -17,12 +17,33 @@
 
 </head>
 <body class="d-flex flex-column sticky-footer-wrapper" id = "body">
+  <div class="modal" tabindex="-1" role="dialog" id = "showPokemonDetails">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="false">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Modal body text goes here.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
       <!-- Main -->
   <div>
     <nav class="navbar navbar-dark bg-red">
       <div class="container-fluid">
         <form class="d-flex input-group w-auto">
+          <img src="./imgaes/pokedex.png" id="pokedex">
           <input
+            id = "pokemonInput"
             type="search"
             class="form-control rounded"
             placeholder="Search Pokemon"
@@ -56,7 +77,7 @@
     </div>
     <span>
     <span>
-      <button type="button" class="btn btn-success" id = "previous">Previous</button>
+      <button type="button" class="btn btn-success" id = "previous" onclick="previousPokemons()">Previous</button>
       <button type="button" class="btn btn-success" onclick="nextPokemons()">Next</button>
     </span>
     </span>
