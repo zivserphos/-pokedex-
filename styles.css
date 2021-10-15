@@ -1,8 +1,31 @@
-body {
-    background-image: url("https://www.google.com/url?sa=i&url=https%3A%2F%2Fwallpaperaccess.com%2Fpokedex&psig=AOvVaw1GaiBy07lQehCwpjf3-yFV&ust=1634322593668000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCMit3KHEyvMCFQAAAAAdAAAAABAD");
+#body {
+    background-color: #d4d3dd;
 }
 
 .fas {
     font-size: 40px;
     color: orange;
 }
+
+.bg-red {
+    background-color: red;
+}
+
+.fa-search {
+    color: blue;
+    
+}
+
+body,
+      .sticky-footer-wrapper {
+        min-height: 100vh;
+      }
+
+.col {
+    font-weight: bold;
+    display: table-cell;
+    text-align: center; 
+    border-style: solid;
+    border-radius: 20px;
+    width: 22%;
+} 
