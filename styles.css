@@ -1,0 +1,90 @@
+#body {
+    background-color: #d4d3dd;
+}
+#pokedes {
+    height: 40px;
+    width: 50px;
+}
+
+.fas {
+    font-size: 40px;
+    color: orange;
+}
+
+.bg-red {
+    background-color: red;
+}
+
+.fa-search {
+    color: blue;
+    
+}
+
+body,
+      .sticky-footer-wrapper {
+        min-height: 100vh;
+      }
+
+.col {
+    font-weight: bold;
+    display: table-cell;
+    text-align: center; 
+    border-style: solid;
+    border-radius: 20px;
+    width: 22%;
+} 
+
+.modal {
+    color: orange;
+    display: block;
+}
+
+.pokemonImg {
+    width: 200px;
+    height: 200px;
+}
+
+.dropdown-menu {
+    color: black;
+}
+
+.pokemonList{
+    display: none;
+}
+
+.dropdown-menu {
+    display: none;
+    flex-direction: column;
+    overflow:scroll;
+    max-height: 100px;
+}
+
+#info {
+    font-weight: bold;
+    font-size: 27px;
+    color: black;
+}
+
+.weightHeight {
+    font-weight: 20px;
+    color: black;
+    font-weight: bold;
+}
+
+.modal-title {
+    font-weight: bold;
+    color: black;
+    font-size: 35px;
+}
+
+#footer {
+    background-color: red;
+    padding: 1em;
+    color: var(--clr-white-200);
+    text-align: center;
+}
+
+.container-sm{
+    font-weight: bold;
+}
+
