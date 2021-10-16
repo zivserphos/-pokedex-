@@ -92,12 +92,12 @@ function pokemonDetailsEl(pokemon){
     const name = createElement("li" , [pokemon.name])
     const weight = createElement("li" , [pokemon.weight])
     const height = createElement("li" , [pokemon.height])
-    dropupType("grass")
     const img = createElement("img" , [] , ["pokemonImg"] , {src: `${pokemon.frontImg}`, frontImg: pokemon.frontImg ,backImg: pokemon.backImg , onmouseover: "whenHover(event)" , onmouseleave: "whenLeave(event)"})
     const ul = createElement("ul" , [name,weight,height,img] , [] , {id: "currentUl"})
     pokemon.type.forEach((type) => {
         const typeName = type.type.name
-        const typeList = createElement("button" ,[typeName] , ["btn" , "btn-secondary"  , "dropdown-toggle"])
+        const typeList = createElement("button" ,[typeName] , ["btn" , "btn-secondary"  , "dropdown-toggle"], {onclick: "showCloseList(event)"})
+        typeList.setAttribute("data-typeName" , typeName)
         const ul = createElement("ul" , [] , ["dropdown-menu"] , {id:typeName})
         dropupType(typeName)
         const div = createElement("div" , [typeList ,ul] ,["btn-group" ,"dropup"])
@@ -126,7 +126,7 @@ async function searchPokemon(event) {
 ninePokemons().then((pokemons) => presenetPokemons(pokemons))
 document.getElementById("search-addon").addEventListener("click" , (event) => searchPokemon(event))
 document.querySelector(".close").addEventListener("click" , (event) =>closePokemonInfo(event))
-document.querySelectorAll("typeButton").addEventListener("click" , () => {
+/*document.getElementById("typeButton").addEventListener("click" , () => {
     const pokemonList = document.getElementById("pokemonList")
     if(pokemonList.dataset.display === "none") {
         pokemonList.setAttribute("data-display" , "flex")
@@ -135,7 +135,18 @@ document.querySelectorAll("typeButton").addEventListener("click" , () => {
     }
     pokemonList.setAttribute("data-display" , "none")
     pokemonList.style.display = "none"
-})
+})*/
+
+function showCloseList(event){
+    const pokemonList = document.getElementById(event.target.dataset.typename)
+    if(pokemonList.dataset.display === "none") {
+        pokemonList.setAttribute("data-display" , "flex")
+        pokemonList.style.display = "flex"
+        return;
+    }
+    pokemonList.setAttribute("data-display" , "none")
+    pokemonList.style.display = "none"
+}
 
 
 
@@ -165,8 +176,3 @@ document.querySelectorAll("typeButton").addEventListener("click" , () => {
     const ul = createElement("ul" , [] , [] , {src: `${pokemon[4]}`})
     document.getElementById("pok1").append(img)
 }) */
-
-
-
-             
-
