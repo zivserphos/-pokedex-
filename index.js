@@ -80,15 +80,12 @@ function closePokemonInfo() {
     document.getElementById("currentUl").remove()
 }
 
-function allPokemonsWithType(){
-
-}
-
-async function dropupType (type) {
-    const pokemonWithType = await axios.get(`https://pokeapi.co/api/v2/type/${type}/`)
-    const typeUl = document.getElementById("pokemonList")
-    console.log(pokemonWithType.data.pokemon[0].pokemon.name)
+async function dropupType (typeName) {
+    const pokemonWithType = await axios.get(`https://pokeapi.co/api/v2/type/${typeName}/`)
+    const typeUl = document.getElementById(typeName)
+    console.log(typeUl)
     pokemonWithType.data.pokemon.forEach((pokemon) => typeUl.append(createElement("li" , [pokemon.pokemon.name] , ["dropdown-item"])))
+    //document.getElementById(typeName).append(typeUl)
 }
 
 function pokemonDetailsEl(pokemon){
@@ -100,8 +97,11 @@ function pokemonDetailsEl(pokemon){
     const ul = createElement("ul" , [name,weight,height,img] , [] , {id: "currentUl"})
     pokemon.type.forEach((type) => {
         const typeName = type.type.name
-        const typeList = createElement("button" ,[typeName] , [] ,{id:typeName})
-        document.querySelector(".modal-footer").prepend(typeList)
+        const typeList = createElement("button" ,[typeName] , ["btn" , "btn-secondary"  , "dropdown-toggle"])
+        const ul = createElement("ul" , [] , ["dropdown-menu"] , {id:typeName})
+        dropupType(typeName)
+        const div = createElement("div" , [typeList ,ul] ,["btn-group" ,"dropup"])
+        document.querySelector(".modal-footer").prepend(div)
     })
     return ul
 }
@@ -126,7 +126,7 @@ async function searchPokemon(event) {
 ninePokemons().then((pokemons) => presenetPokemons(pokemons))
 document.getElementById("search-addon").addEventListener("click" , (event) => searchPokemon(event))
 document.querySelector(".close").addEventListener("click" , (event) =>closePokemonInfo(event))
-document.getElementById("typeButton").addEventListener("click" , () => {
+document.querySelectorAll("typeButton").addEventListener("click" , () => {
     const pokemonList = document.getElementById("pokemonList")
     if(pokemonList.dataset.display === "none") {
         pokemonList.setAttribute("data-display" , "flex")

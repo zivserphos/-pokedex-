@@ -53,6 +53,7 @@ body,
 }
 
 .dropdown-menu {
+    display: none;
     flex-direction: column;
     overflow:scroll;
     max-height: 100px;
