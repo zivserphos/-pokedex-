@@ -1,3 +1,4 @@
+
 let next =0;
 
 function createElement(tagName, children = [], classes = [], attributes = {}) { // create new element in more comfortable
@@ -74,13 +75,27 @@ async function previousPokemons() {
     presenetPokemons(pokemons)
 }
 
+function x() {
+    const y = document.getElementById("xxx")
+    console.log(y)
+    for(let i=0; i<100; i++) {
+        y.append(createElement("li" , [i]))
+    }
+}
+
+async function dropupType (type) {
+    let pokemonWithType = await axios.get(`https://pokeapi.co/api/v2/type/${type.type.name}/`)
+    const typeEl = createElement("button" , [type.type.name])
+    document.getElementById("dropupButtons").append(typeEl)
+}
+
 function pokemonDetailsEl(pokemon){
     const name = createElement("li" , [pokemon.name])
     const weight = createElement("li" , [pokemon.weight])
     const height = createElement("li" , [pokemon.height])
-    console.log(pokemon.backImg)
+    pokemon.type.forEach(async (type) => await dropupType(type))
     const img = createElement("img" , [] , ["pokemonImg"] , {src: `${pokemon.frontImg}`, frontImg: pokemon.frontImg ,backImg: pokemon.backImg , onmouseover: "whenHover(event)" , onmouseleave: "whenLeave(event)"})
-    const ul = createElement("ul" , [name,weight,height,img])
+    const ul = createElement("ul" , [name,weight,height,img] , [] , {id: "currentUl"})
     return ul
 }
 
@@ -101,8 +116,15 @@ async function searchPokemon(event) {
     document.getElementById("showPokemonDetails").style.display = "flex"
 }
 
+function closePokemonInfo(event) {
+    document.getElementById("showPokemonDetails").style.display = "none"
+    document.getElementById("currentUl").remove()
+}
+
 ninePokemons().then((pokemons) => presenetPokemons(pokemons))
 document.getElementById("search-addon").addEventListener("click" , (event) => searchPokemon(event))
+document.querySelector(".close").addEventListener("click" , (event) =>closePokemonInfo(event))
+x()
 
 
 
