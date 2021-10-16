@@ -79,8 +79,8 @@ async function changePokemon(event){
     const pokemonName = event.target.textContent
     const pokemon = await getPokemon(pokemonName)
     closePokemonInfo()
-    //console.log("xxxxxxxxxxx")
-    pokemonDetailsEl(pokemon)
+    document.querySelector(".modal-body").append(pokemonDetailsEl(pokemon))
+    document.getElementById("showPokemonDetails").style.display = "flex"
     
 }
 
