@@ -101,11 +101,11 @@ async function dropupType (typeName) {
 
 function pokemonDetailsEl(pokemon){
     //console.log(pokemon)
-    const name = createElement("li" , [pokemon.name])
-    const weight = createElement("li" , [pokemon.weight])
-    const height = createElement("li" , [pokemon.height])
+    const weight = createElement("li" , [`pokemon weight: ${pokemon.weight}`] , ["weightHeight"])
+    const height = createElement("li" , [`pokemon height: ${pokemon.height}`] , ["weightHeight"])
     const img = createElement("img" , [] , ["pokemonImg"] , {src: `${pokemon.frontImg}`, frontImg: pokemon.frontImg ,backImg: pokemon.backImg , onmouseover: "whenHover(event)" , onmouseleave: "whenLeave(event)"})
-    const ul = createElement("ul" , [name,weight,height,img] , [] , {id: "currentUl"})
+    document.querySelector(".modal-title").textContent = pokemon.name
+    const ul = createElement("ul" , [weight,height,img] , [] , {id: "currentUl"})
     pokemon.type.forEach((type) => {
         const typeName = type.type.name
         const typeList = createElement("button" ,[typeName] , ["btn" , "btn-secondary"  , "dropdown-toggle"], {onclick: "showCloseList(event)"})

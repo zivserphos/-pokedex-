@@ -59,3 +59,28 @@ body,
     max-height: 100px;
 }
 
+#info {
+    font-weight: bold;
+    font-size: 27px;
+    color: black;
+}
+
+.weightHeight {
+    font-weight: 20px;
+    color: black;
+    font-weight: bold;
+}
+
+.modal-title {
+    font-weight: bold;
+    color: black;
+    font-size: 35px;
+}
+
+#footer {
+    background-color: red;
+    padding: 1em;
+    color: var(--clr-white-200);
+    text-align: center;
+}
+
