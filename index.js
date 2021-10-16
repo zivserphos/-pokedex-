@@ -129,8 +129,8 @@ function whenLeave(event) {
 }
 
 async function searchPokemon(event) {
-    const input = document.getElementById("pokemonInput")
-    const pokemon = await getPokemon(input.value)
+    const input = document.getElementById("pokemonInput").value.toLowerCase()
+    const pokemon = await getPokemon(input)
     document.querySelector(".modal-body").append(pokemonDetailsEl(pokemon))
     document.getElementById("showPokemonDetails").style.display = "flex"
 }
