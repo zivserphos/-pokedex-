@@ -17,8 +17,9 @@ function createElement(tagName, children = [], classes = [], attributes = {}) { 
 
 async function getPokemon(pokemonName) {
     try {
-        const x = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemonName}/`)
-        return pokemonData(x.data)
+        let pokemon = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}/`)
+        pokemon = await pokemon.json()
+        return pokemonData(pokemon)
     }
     catch {
         throw new Error("NOT FOUND")
@@ -43,8 +44,9 @@ const pokemonData = (pokemon) => {
 const pokemons = pokemonsWithType("grass").then((pokemons) => pokemons)
 
 async function ninePokemons() {
-    let pokemons = await axios.get(`https://pokeapi.co/api/v2/pokemon/?limit=9&offset=${next}`)
-    pokemons = pokemons.data.results;
+    let pokemons = await fetch(`https://pokeapi.co/api/v2/pokemon/?limit=9&offset=${next}`)
+    pokemons = await pokemons.json()
+    pokemons = pokemons.results;
     for(let i=0; i<pokemons.length; i++) {
         pokemons[i] = await getPokemon(pokemons[i].name)
     }
@@ -89,7 +91,6 @@ function closePokemonInfo() {
     document.getElementById("currentUl").remove()
     const allTypeLists = Array.from(document.querySelectorAll(".dropdown-menu"))
     allTypeLists.forEach((ul) => {
-        console.log(ul.closest("div"))
         ul.closest('div').remove()})
 }
 
@@ -100,7 +101,6 @@ async function dropupType (typeName) {
 }
 
 function pokemonDetailsEl(pokemon){
-    //console.log(pokemon)
     const weight = createElement("li" , [`pokemon weight: ${pokemon.weight}`] , ["weightHeight"])
     const height = createElement("li" , [`pokemon height: ${pokemon.height}`] , ["weightHeight"])
     const img = createElement("img" , [] , ["pokemonImg"] , {src: `${pokemon.frontImg}`, frontImg: pokemon.frontImg ,backImg: pokemon.backImg , onmouseover: "whenHover(event)" , onmouseleave: "whenLeave(event)"})
