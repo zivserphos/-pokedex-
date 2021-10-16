@@ -44,3 +44,17 @@ body,
     height: 200px;
 }
 
+.dropdown-menu {
+    color: black;
+}
+
+.pokemonList{
+    display: none;
+}
+
+.dropdown-menu {
+    flex-direction: column;
+    overflow:scroll;
+    max-height: 100px;
+}
+

@@ -75,27 +75,34 @@ async function previousPokemons() {
     presenetPokemons(pokemons)
 }
 
-function x() {
-    const y = document.getElementById("xxx")
-    console.log(y)
-    for(let i=0; i<100; i++) {
-        y.append(createElement("li" , [i]))
-    }
+function closePokemonInfo() {
+    document.getElementById("showPokemonDetails").style.display = "none"
+    document.getElementById("currentUl").remove()
+}
+
+function allPokemonsWithType(){
+
 }
 
 async function dropupType (type) {
-    let pokemonWithType = await axios.get(`https://pokeapi.co/api/v2/type/${type.type.name}/`)
-    const typeEl = createElement("button" , [type.type.name])
-    document.getElementById("dropupButtons").append(typeEl)
+    const pokemonWithType = await axios.get(`https://pokeapi.co/api/v2/type/${type}/`)
+    const typeUl = document.getElementById("pokemonList")
+    console.log(pokemonWithType.data.pokemon[0].pokemon.name)
+    pokemonWithType.data.pokemon.forEach((pokemon) => typeUl.append(createElement("li" , [pokemon.pokemon.name] , ["dropdown-item"])))
 }
 
 function pokemonDetailsEl(pokemon){
     const name = createElement("li" , [pokemon.name])
     const weight = createElement("li" , [pokemon.weight])
     const height = createElement("li" , [pokemon.height])
-    pokemon.type.forEach(async (type) => await dropupType(type))
+    dropupType("grass")
     const img = createElement("img" , [] , ["pokemonImg"] , {src: `${pokemon.frontImg}`, frontImg: pokemon.frontImg ,backImg: pokemon.backImg , onmouseover: "whenHover(event)" , onmouseleave: "whenLeave(event)"})
     const ul = createElement("ul" , [name,weight,height,img] , [] , {id: "currentUl"})
+    pokemon.type.forEach((type) => {
+        const typeName = type.type.name
+        const typeList = createElement("button" ,[typeName] , [] ,{id:typeName})
+        document.querySelector(".modal-footer").prepend(typeList)
+    })
     return ul
 }
 
@@ -116,15 +123,19 @@ async function searchPokemon(event) {
     document.getElementById("showPokemonDetails").style.display = "flex"
 }
 
-function closePokemonInfo(event) {
-    document.getElementById("showPokemonDetails").style.display = "none"
-    document.getElementById("currentUl").remove()
-}
-
 ninePokemons().then((pokemons) => presenetPokemons(pokemons))
 document.getElementById("search-addon").addEventListener("click" , (event) => searchPokemon(event))
 document.querySelector(".close").addEventListener("click" , (event) =>closePokemonInfo(event))
-x()
+document.getElementById("typeButton").addEventListener("click" , () => {
+    const pokemonList = document.getElementById("pokemonList")
+    if(pokemonList.dataset.display === "none") {
+        pokemonList.setAttribute("data-display" , "flex")
+        pokemonList.style.display = "flex"
+        return;
+    }
+    pokemonList.setAttribute("data-display" , "none")
+    pokemonList.style.display = "none"
+})
 
 
 
