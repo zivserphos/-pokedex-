@@ -83,10 +83,14 @@ function closePokemonInfo() {
         ul.closest('div').remove()})
 }
 
-async function dropupType (typeName) {
-    const pokemonWithType = await axios.get(`https://pokeapi.co/api/v2/type/${typeName}/`)
+async function dropupType(typeName) {
+    const pokemonWithType = await axios.get(`http://localhost:8080/pokemon/getTypeByName/water` , {
+        headers: {
+            username: "ziv_serphos"
+        }
+    })
     const typeUl = document.getElementById(typeName)
-    pokemonWithType.data.pokemon.forEach((pokemon) => typeUl.append(createElement("li" , [pokemon.pokemon.name] , ["dropdown-item"] , {onclick: "changePokemon(event)"})))
+    pokemonWithType.data.forEach((name) => typeUl.append(createElement("li" , [name] , ["dropdown-item"] , {onclick: "changePokemon(event)"})))
 }
 
 function pokemonDetailsEl(pokemon){
