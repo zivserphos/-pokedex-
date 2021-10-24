@@ -1,4 +1,5 @@
 let next = 0;
+const currentUser = "*"
 
 function createElement(tagName, children = [], classes = [], attributes = {}) {
   // create new element in more comfortable
@@ -24,7 +25,7 @@ async function getPokemon(pokemonName) {
       `http://localhost:8080/pokemon/get/${pokemonName}`,
       {
         headers: {
-          username: "ziv_serphos",
+          username: currentUser,
         },
       }
     );
@@ -43,7 +44,7 @@ async function catchPokemon(event) {
       {},
       {
         headers: {
-          username: "ziv_serphos",
+          username: currentUser,
         },
       }
     );
@@ -57,7 +58,7 @@ async function ninePokemons() {
     `http://localhost:8080/pokemon/getPokemonsList/9/${next}`,
     {
       headers: {
-        username: "ziv_serphos",
+        username: currentUser,
       },
     }
   );
@@ -123,7 +124,7 @@ async function dropupType(typeName) {
     `http://localhost:8080/pokemon/getTypeByName/water`,
     {
       headers: {
-        username: "ziv_serphos",
+        username: "defaultUser",
       },
     }
   );
@@ -137,17 +138,23 @@ async function dropupType(typeName) {
   );
 }
 async function dropupPokedex() {
+  if (currentUser === "*") {
+    throw Error("YOU NEED TO LOGIN IN FIRST")
+  }
   const pokemonList = await axios.get(`http://localhost:8080/pokemon/getPokedex`, {
     headers: {
-      username: "ziv_serphos",
+      username: currentUser,
     },
   });
+  if (!pokemonList){
+    throw Error("you dont have any catched pokemons")
+  }
   const ul = document.getElementById("pokedexList")
-  pokemonList.data.forEach((name) => ul.append(createElement("li" , [name] , ["dropdown-item"] , {onclick: "changePokemon(event)"})))
+  pokemonList.data.forEach((name) => ul.append(createElement("li" , [name] , ["dropdown-item"])))
  
 }
 
-dropupPokedex()
+//dropupPokedex()
 
 function pokemonDetailsEl(pokemon) {
   console.log(pokemon);
@@ -185,7 +192,7 @@ function pokemonDetailsEl(pokemon) {
       ["btn", "btn-secondary", "dropdown-toggle"],
       { onclick: "showCloseList(event)" }
     );
-    typeList.setAttribute("data-typeName", typeName);
+    typeList.setAttribute("data-identify", typeName);
     const ul = createElement("ul", [], ["dropdown-menu" , "allTypes"], { id: typeName });
     dropupType(typeName);
     const div = createElement("div", [typeList, ul], ["btn-group", "dropup"]);
@@ -220,8 +227,8 @@ document
   .addEventListener("click", (event) => closePokemonInfo(event));
 
 function showCloseList(event) {
-  console.log(event.target)
-  const pokemonList = document.getElementById(event.target.dataset.typename);
+  const pokemonList = document.getElementById(event.target.dataset.identify);
+  console.log(pokemonList)
   if (pokemonList.dataset.display === "none") {
     pokemonList.setAttribute("data-display", "flex");
     pokemonList.style.display = "flex";
@@ -231,6 +238,3 @@ function showCloseList(event) {
   pokemonList.style.display = "none";
 }
 
-document
-  .getElementById("userPokedex")
-  .addEventListener("click", (event) => showCloseList(event));

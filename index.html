@@ -79,11 +79,10 @@
     <span>
       <button type="button" class="btn btn-success" id = "previous" onclick="previousPokemons()">Previous</button>
       <button type="button" class="btn btn-success" onclick="nextPokemons()">Next</button>
-      <button id = "userPokedex" type="button" class="btn btn-info dropdown-toggle">My pokedex
-        <ul class="dropdown-menu" id = "pokedexList">
-
-        </ul>
-    </button>
+      <div class="btn-group dropup">
+        <button id = "userPokedex" type="button" class="btn btn-info dropdown-toggle" data-identify="pokedexList" onclick="showCloseList(event)">My pokedex</button>
+        <ul class="dropdown-menu" id = "pokedexList" data-display="none"></ul>
+      </div>
     </span>
     </span>
   </div>
