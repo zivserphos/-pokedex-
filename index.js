@@ -38,11 +38,11 @@ async function catchPokemon(event) {
   const pokemonId = Number(event.target.dataset.id);
   console.log(typeof pokemonId);
   try {
-    const message = await axios.put(
+    await axios.put(
       `http://localhost:8080/pokemon/catch/${pokemonId}`,
       {},
       {
-        heabders: {
+        headers: {
           username: "ziv_serphos",
         },
       }
@@ -112,7 +112,7 @@ async function changePokemon(event) {
 function closePokemonInfo() {
   document.getElementById("showPokemonDetails").style.display = "none";
   document.getElementById("currentUl").remove();
-  const allTypeLists = Array.from(document.querySelectorAll(".dropdown-menu"));
+  const allTypeLists = Array.from(document.querySelectorAll(".allTypes"));
   allTypeLists.forEach((ul) => {
     ul.closest("div").remove();
   });
@@ -136,10 +136,18 @@ async function dropupType(typeName) {
     )
   );
 }
-
-function dropopPokedex(username){
-    
+async function dropupPokedex() {
+  const pokemonList = await axios.get(`http://localhost:8080/pokemon/getPokedex`, {
+    headers: {
+      username: "ziv_serphos",
+    },
+  });
+  const ul = document.getElementById("pokedexList")
+  pokemonList.data.forEach((name) => ul.append(createElement("li" , [name] , ["dropdown-item"] , {onclick: "changePokemon(event)"})))
+ 
 }
+
+dropupPokedex()
 
 function pokemonDetailsEl(pokemon) {
   console.log(pokemon);
@@ -178,7 +186,7 @@ function pokemonDetailsEl(pokemon) {
       { onclick: "showCloseList(event)" }
     );
     typeList.setAttribute("data-typeName", typeName);
-    const ul = createElement("ul", [], ["dropdown-menu"], { id: typeName });
+    const ul = createElement("ul", [], ["dropdown-menu" , "allTypes"], { id: typeName });
     dropupType(typeName);
     const div = createElement("div", [typeList, ul], ["btn-group", "dropup"]);
     document.querySelector(".modal-footer").prepend(div);
@@ -212,6 +220,7 @@ document
   .addEventListener("click", (event) => closePokemonInfo(event));
 
 function showCloseList(event) {
+  console.log(event.target)
   const pokemonList = document.getElementById(event.target.dataset.typename);
   if (pokemonList.dataset.display === "none") {
     pokemonList.setAttribute("data-display", "flex");
@@ -222,8 +231,6 @@ function showCloseList(event) {
   pokemonList.style.display = "none";
 }
 
-/* pokemon.then((pokemon) => {
-    const name = createElement("li" , [])
-    const ul = createElement("ul" , [] , [] , {src: `${pokemon[4]}`})
-    document.getElementById("pok1").append(img)
-}) */
+document
+  .getElementById("userPokedex")
+  .addEventListener("click", (event) => showCloseList(event));
