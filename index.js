@@ -1,20 +1,5 @@
-let next =0;
 
-// async function zibi() {
-// console.log("223")
-// try {
-// const a = await axios.get("http://localhost:8080/pokemon/get/17" , {
-//     headers: {
-//         username: "ziv_serphos",
-//     }
-// })
-// console.log(a.data)
-// }
-// catch(err) {
-//     console.log(err)
-// }
-// }
-// zibi()
+let next =0;
 
 function createElement(tagName, children = [], classes = [], attributes = {}) { // create new element in more comfortable
     const el = document.createElement(tagName); 
@@ -32,13 +17,9 @@ function createElement(tagName, children = [], classes = [], attributes = {}) { 
 
 async function getPokemon(pokemonName) {
     try {
-        let pokemon = await axios.get(`http://localhost:8080/pokemon/get/${pokemonName}` , {
-                headers: {
-                    username: "ziv_serphos",
-                }
-            })
-        //pokemon = await pokemon.json()
-        return pokemon.data
+        let pokemon = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}/`)
+        pokemon = await pokemon.json()
+        return pokemonData(pokemon)
     }
     catch {
         throw new Error("NOT FOUND")
@@ -120,14 +101,13 @@ async function dropupType (typeName) {
 }
 
 function pokemonDetailsEl(pokemon){
-    console.log(pokemon)
     const weight = createElement("li" , [`pokemon weight: ${pokemon.weight}`] , ["weightHeight"])
     const height = createElement("li" , [`pokemon height: ${pokemon.height}`] , ["weightHeight"])
     const img = createElement("img" , [] , ["pokemonImg"] , {src: `${pokemon.frontImg}`, frontImg: pokemon.frontImg ,backImg: pokemon.backImg , onmouseover: "whenHover(event)" , onmouseleave: "whenLeave(event)"})
     document.querySelector(".modal-title").textContent = pokemon.name
     const ul = createElement("ul" , [weight,height,img] , [] , {id: "currentUl"})
-    pokemon.types.forEach((type) => {
-        const typeName = type
+    pokemon.type.forEach((type) => {
+        const typeName = type.type.name
         const typeList = createElement("button" ,[typeName] , ["btn" , "btn-secondary"  , "dropdown-toggle"], {onclick: "showCloseList(event)"})
         typeList.setAttribute("data-typeName" , typeName)
         const ul = createElement("ul" , [] , ["dropdown-menu"] , {id:typeName})
