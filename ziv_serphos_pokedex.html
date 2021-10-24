@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">  
+    <title>username POKEDEX</title>
+    <link rel="stylesheet" href="styles.css">
+    <meta name="description" content="Client-side app illustrating fetch and axios">
+    <meta name="author" content="Denise Case">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.7/css/mdb.min.css" rel="stylesheet">  
+    <!-- required for sticky footer -->
+</head>
+<body>
+    <body class="d-flex flex-column sticky-footer-wrapper" id = "body">
+        <div class="modal" tabindex="-1" role="dialog" id = "showPokemonDetails">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="false">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <p id = "info">Some pokemon Info:</p>
+              </div>
+              <div class="modal-footer">
+                <div class="btn-group dropup" id = "dropupButtons">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+            <!-- Main -->
+        <div>
+          <nav class="navbar navbar-dark bg-red">
+            <div class="container-fluid">
+              <form class="d-flex input-group w-auto">
+                <img src="./imgaes/pokedex.png" id="pokedex">
+                <input
+                  id = "pokemonInput"
+                  type="search"
+                  class="form-control rounded"
+                  placeholder="Search in pokedex"
+                  aria-label="Search"
+                  aria-describedby="search-addon"
+                />
+                <span class="input-group-text text-white border-0" id="search-addon">
+                  <i class="fas fa-search"></i>
+                </span>
+                <span class = "middle">WELCOME TO ziv_serphos POKEDEX</span>
+              </form>
+            </div>
+          </nav>
+          
+          <i class="fas fa-crown"></i>
+        </div>
+        <div class="container-sm">You can browse between pokemons with next and previous buttons
+          <div class="d-flex align-items-start bg-light mb-3 " style="height: 100px;">
+            <div class="col" id = "pok1">#1</div>
+            <div class="col" id = "pok2">#2</div>
+            <div class="col" id = "pok3">#3</div>
+          </div>
+          <div class="d-flex align-items-center bg-light mb-3" style="height: 100px;">
+            <div class="col" id = "pok4">#4</div>
+            <div class="col" id = "pok5">#5</div>
+            <div class="col" id = "pok6">#6</div>
+          </div>
+          <div class="d-flex align-items-end bg-light mb-3" style="height: 100px;">
+            <div class="col" id = "pok7">#7</div>
+            <div class="col" id = "pok8">#8</div>
+            <div class="col" id = "pok9">#9</div>
+          </div>
+          <span>
+          <span>
+            <button type="button" class="btn btn-success" id = "previous" onclick="previousPokemons()">Previous</button>
+            <button type="button" class="btn btn-success" onclick="nextPokemons()">Next</button>
+            <a id="refer" href="./ziv_serphos_pokedex.html"><button type="button" class="btn btn-info" onclick = "showPokedex()" id = "showPokedex">My pokedex</button></a>
+          </span>
+          </span>
+        </div>
+        
+        <footer class="footer mt-auto py-3 bg-light" id = "footer">
+          <div class="container"> 
+            <p class="copyright">© Copyright 2021 Ziv serphos</p>
+          </div>
+      </footer>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.7/js/mdb.min.js"></script>
+       
+        <!-- add axios with cdn - still no build tools needed -->
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+            <!--<script src="./index.js"></script> -->
+</html>
