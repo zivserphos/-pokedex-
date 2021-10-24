@@ -1,5 +1,5 @@
 let next = 0;
-const currentUser = "*"
+const currentUser = "avi"
 
 function createElement(tagName, children = [], classes = [], attributes = {}) {
   // create new element in more comfortable
@@ -37,7 +37,9 @@ async function getPokemon(pokemonName) {
 
 async function catchPokemon(event) {
   const pokemonId = Number(event.target.dataset.id);
-  console.log(typeof pokemonId);
+  if(currentUser === "avi") {
+    throw Error("YOU HAVE TO LOG IN BEFORE CATCH POKEMONS!")
+  }
   try {
     await axios.put(
       `http://localhost:8080/pokemon/catch/${pokemonId}`,
@@ -138,7 +140,7 @@ async function dropupType(typeName) {
   );
 }
 async function dropupPokedex() {
-  if (currentUser === "*") {
+  if (currentUser === "avi") {
     throw Error("YOU NEED TO LOGIN IN FIRST")
   }
   const pokemonList = await axios.get(`http://localhost:8080/pokemon/getPokedex`, {
@@ -154,7 +156,6 @@ async function dropupPokedex() {
  
 }
 
-//dropupPokedex()
 
 function pokemonDetailsEl(pokemon) {
   console.log(pokemon);
