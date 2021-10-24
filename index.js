@@ -1,21 +1,5 @@
 let next =0;
 
-// async function zibi() {
-// console.log("223")
-// try {
-// const a = await axios.get("http://localhost:8080/pokemon/get/17" , {
-//     headers: {
-//         username: "ziv_serphos",
-//     }
-// })
-// console.log(a.data)
-// }
-// catch(err) {
-//     console.log(err)
-// }
-// }
-// zibi()
-
 function createElement(tagName, children = [], classes = [], attributes = {}) { // create new element in more comfortable
     const el = document.createElement(tagName); 
     for (let child of children) { // append childs of element
@@ -45,29 +29,15 @@ async function getPokemon(pokemonName) {
     }
 }
 
-async function pokemonsWithType(type) {
-    const pokemonWithType = await axios.get(`https://pokeapi.co/api/v2/type/${type}`)
-    return pokemonWithType.data.pokemon
-}
-const pokemonData = (pokemon) => {
-    const dataPokemon = {
-        name: pokemon.name,
-        weight: pokemon.weight,
-        height: pokemon.height,
-        frontImg: pokemon.sprites.front_default,
-        backImg: pokemon.sprites.back_default,
-        type: pokemon.types,
-    }
-    return dataPokemon
-}
-const pokemons = pokemonsWithType("grass").then((pokemons) => pokemons)
-
 async function ninePokemons() {
-    let pokemons = await fetch(`https://pokeapi.co/api/v2/pokemon/?limit=9&offset=${next}`)
-    pokemons = await pokemons.json()
-    pokemons = pokemons.results;
+    let pokemons = await axios.get(`http://localhost:8080/pokemon/getPokemonsList/9/${next}` , {
+        headers: {
+            username: "ziv_serphos"
+        }
+    })
+    pokemons = pokemons.data
     for(let i=0; i<pokemons.length; i++) {
-        pokemons[i] = await getPokemon(pokemons[i].name)
+        pokemons[i] = await getPokemon(pokemons[i])
     }
     return pokemons
 }
@@ -169,11 +139,6 @@ function showCloseList(event){
     pokemonList.setAttribute("data-display" , "none")
     pokemonList.style.display = "none"
 }
-
-
-
-
-
 
 
 
