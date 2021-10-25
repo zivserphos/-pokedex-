@@ -1,5 +1,5 @@
 let next = 0;
-const currentUser = "avi"
+let currentUser = "avi"
 
 function createElement(tagName, children = [], classes = [], attributes = {}) {
   // create new element in more comfortable
@@ -35,6 +35,13 @@ async function getPokemon(pokemonName) {
   }
 }
 
+function submitUserName(event) {
+   const userDiv = event.target.closest("div")
+   currentUser = userDiv.children[0].value;
+   return dropupPokedex();
+}
+document.getElementById("submit").addEventListener("click" , submitUserName)
+
 async function catchPokemon(event) {
   const pokemonId = Number(event.target.dataset.id);
   if(currentUser === "avi") {
@@ -50,6 +57,7 @@ async function catchPokemon(event) {
         },
       }
     );
+    dropupPokedex()
   } catch (err) {
     console.log(err.response.data);
   }
@@ -126,7 +134,7 @@ async function dropupType(typeName) {
     `http://localhost:8080/pokemon/getTypeByName/water`,
     {
       headers: {
-        username: "defaultUser",
+        username: currentUser,
       },
     }
   );
@@ -140,9 +148,6 @@ async function dropupType(typeName) {
   );
 }
 async function dropupPokedex() {
-  if (currentUser === "avi") {
-    throw Error("YOU NEED TO LOGIN IN FIRST")
-  }
   const pokemonList = await axios.get(`http://localhost:8080/pokemon/getPokedex`, {
     headers: {
       username: currentUser,
@@ -152,6 +157,7 @@ async function dropupPokedex() {
     throw Error("you dont have any catched pokemons")
   }
   const ul = document.getElementById("pokedexList")
+  ul.innerHTML = ""
   pokemonList.data.forEach((name) => ul.append(createElement("li" , [name] , ["dropdown-item"])))
  
 }
@@ -228,6 +234,9 @@ document
   .addEventListener("click", (event) => closePokemonInfo(event));
 
 function showCloseList(event) {
+  if (currentUser === "avi") {
+    throw Error("YOU NEED TO LOGIN IN FIRST")
+  }
   const pokemonList = document.getElementById(event.target.dataset.identify);
   console.log(pokemonList)
   if (pokemonList.dataset.display === "none") {
