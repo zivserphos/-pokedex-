@@ -1,3 +1,7 @@
+import "./styles.css"
+import "./imgaes/catch_pokemon.png"
+import "./imgaes/pokedex.png"
+
 let next = 0;
 let currentUser = "avi"
 
@@ -84,7 +88,8 @@ async function ninePokemons() {
 }
 
 async function presenetPokemons(pokemons) {
-  for (i = 0; i < pokemons.length; i++) {
+  console.log("89")
+  for (let i = 0; i < pokemons.length; i++) {
     const pokemon = pokemons[i];
     const img = createElement("img", [], [], { src: `${pokemon.frontImg}` });
     const catchImg = createElement("img", [], ["catchPokemon"], {
