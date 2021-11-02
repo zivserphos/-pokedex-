@@ -12,7 +12,7 @@ function createElement(tagName, children = [], classes = [], attributes = {}) {
     // add all the classes to the element
     el.classList.add(cls);
   }
-  for (let attr in attributes) {
+  for (let attr in attributes)  {
     // add all attributes to the element
     el.setAttribute(attr, attributes[attr]);
   }
