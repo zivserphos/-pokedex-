@@ -8,7 +8,8 @@ module.exports = {
   entry: './index.js',
   output: {
         filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist'),
+        publicPath: "./",
+        path: path.resolve(__dirname, 'dist'),
   },
   devtool: 'eval-source-map',
   devServer: {
@@ -20,7 +21,7 @@ module.exports = {
         test: /\.(jpe?g|png|gif|svg)$/i, 
         loader: 'file-loader',
         options: {
-          name: '/public/icons/[name].[ext]'
+          name: '/images/[name].[ext]'
         }
       },
       {

@@ -1,9 +1,9 @@
-import "./styles.css"
-import "./imgaes/catch_pokemon.png"
-import "./imgaes/pokedex.png"
+import "./styles.css";
+import "./images/catch_pokemon.png";
+import "./images/pokedex.png";
 
 let next = 0;
-let currentUser = "avi"
+let currentUser = "avi";
 
 function createElement(tagName, children = [], classes = [], attributes = {}) {
   // create new element in more comfortable
@@ -16,7 +16,7 @@ function createElement(tagName, children = [], classes = [], attributes = {}) {
     // add all the classes to the element
     el.classList.add(cls);
   }
-  for (let attr in attributes)  {
+  for (let attr in attributes) {
     // add all attributes to the element
     el.setAttribute(attr, attributes[attr]);
   }
@@ -25,14 +25,11 @@ function createElement(tagName, children = [], classes = [], attributes = {}) {
 
 async function getPokemon(pokemonName) {
   try {
-    let pokemon = await axios.get(
-      `http://localhost:8080/pokemon/get/${pokemonName}`,
-      {
-        headers: {
-          username: currentUser,
-        },
-      }
-    );
+    let pokemon = await axios.get(`/pokemon/get/${pokemonName}`, {
+      headers: {
+        username: currentUser,
+      },
+    });
     return pokemon.data;
   } catch {
     throw new Error("NOT FOUND");
@@ -40,20 +37,20 @@ async function getPokemon(pokemonName) {
 }
 
 function submitUserName(event) {
-   const userDiv = event.target.closest("div")
-   currentUser = userDiv.children[0].value;
-   return dropupPokedex();
+  const userDiv = event.target.closest("div");
+  currentUser = userDiv.children[0].value;
+  return dropupPokedex();
 }
-document.getElementById("submit").addEventListener("click" , submitUserName)
+document.getElementById("submit").addEventListener("click", submitUserName);
 
 async function catchPokemon(event) {
   const pokemonId = Number(event.target.dataset.id);
-  if(currentUser === "avi") {
-    throw Error("YOU HAVE TO LOG IN BEFORE CATCH POKEMONS!")
+  if (currentUser === "avi") {
+    throw Error("YOU HAVE TO LOG IN BEFORE CATCH POKEMONS!");
   }
   try {
     await axios.put(
-      `http://localhost:8080/pokemon/catch/${pokemonId}`,
+      `/pokemon/catch/${pokemonId}`,
       {},
       {
         headers: {
@@ -61,21 +58,18 @@ async function catchPokemon(event) {
         },
       }
     );
-    dropupPokedex()
+    dropupPokedex();
   } catch (err) {
     console.log(err.response.data);
   }
 }
 
 async function ninePokemons() {
-  let pokemons = await axios.get(
-    `http://localhost:8080/pokemon/getPokemonsList/9/${next}`,
-    {
-      headers: {
-        username: currentUser,
-      },
-    }
-  );
+  let pokemons = await axios.get(`/pokemon/getPokemonsList/9/${next}`, {
+    headers: {
+      username: currentUser,
+    },
+  });
   pokemons = pokemons.data;
   for (let i = 0; i < pokemons.length; i++) {
     let details = await getPokemon(pokemons[i]);
@@ -88,15 +82,15 @@ async function ninePokemons() {
 }
 
 async function presenetPokemons(pokemons) {
-  console.log("89")
+  console.log("89");
   for (let i = 0; i < pokemons.length; i++) {
     const pokemon = pokemons[i];
     const img = createElement("img", [], [], { src: `${pokemon.frontImg}` });
     const catchImg = createElement("img", [], ["catchPokemon"], {
-      src: "imgaes/catch_pokemon.png",
+      src: "images/catch_pokemon.png",
       "data-id": pokemon.id,
-      onclick: "catchPokemon(event)",
     });
+    catchImg.addEventListener("click", (event) => catchPokemon(event));
     const pokEl = document.getElementById(`pok${i + 1}`);
     pokEl.textContent = ``;
     pokEl.append(img, catchImg);
@@ -135,38 +129,32 @@ function closePokemonInfo() {
 }
 
 async function dropupType(typeName) {
-  const pokemonWithType = await axios.get(
-    `http://localhost:8080/pokemon/getTypeByName/water`,
-    {
-      headers: {
-        username: currentUser,
-      },
-    }
-  );
-  const typeUl = document.getElementById(typeName);
-  pokemonWithType.data.forEach((name) =>
-    typeUl.append(
-      createElement("li", [name], ["dropdown-item"], {
-        onclick: "changePokemon(event)",
-      })
-    )
-  );
-}
-async function dropupPokedex() {
-  const pokemonList = await axios.get(`http://localhost:8080/pokemon/getPokedex`, {
+  const pokemonWithType = await axios.get(`/pokemon/getTypeByName/water`, {
     headers: {
       username: currentUser,
     },
   });
-  if (!pokemonList){
-    throw Error("you dont have any catched pokemons")
-  }
-  const ul = document.getElementById("pokedexList")
-  ul.innerHTML = ""
-  pokemonList.data.forEach((name) => ul.append(createElement("li" , [name] , ["dropdown-item"])))
- 
+  const typeUl = document.getElementById(typeName);
+  pokemonWithType.data.forEach((name) =>
+    typeUl.append(createElement("li", [name], ["dropdown-item"], {}))
+  );
+  typeUl.addEventListener("click", (event) => changePokemon(event));
 }
-
+async function dropupPokedex() {
+  const pokemonList = await axios.get(`/pokemon/getPokedex`, {
+    headers: {
+      username: currentUser,
+    },
+  });
+  if (!pokemonList) {
+    throw Error("you dont have any catched pokemons");
+  }
+  const ul = document.getElementById("pokedexList");
+  ul.innerHTML = "";
+  pokemonList.data.forEach((name) =>
+    ul.append(createElement("li", [name], ["dropdown-item"]))
+  );
+}
 
 function pokemonDetailsEl(pokemon) {
   console.log(pokemon);
@@ -184,14 +172,14 @@ function pokemonDetailsEl(pokemon) {
     src: `${pokemon.frontImg}`,
     frontImg: pokemon.frontImg,
     backImg: pokemon.backImg,
-    onmouseover: "whenHover(event)",
-    onmouseleave: "whenLeave(event)",
   });
+  img.addEventListener("mouseover", (event) => whenHover(event));
+  img.addEventListener("mouseleave", (event) => whenLeave(event));
   const catchImg = createElement("img", [], ["catchPokemon"], {
-    src: "imgaes/catch_pokemon.png",
+    src: "images/catch_pokemon.png",
     "data-id": pokemon.id,
-    onclick: "catchPokemon(event)",
   });
+  catchImg.addEventListener("click", (event) => catchPokemon(event));
   document.querySelector(".modal-title").textContent = pokemon.name;
   const ul = createElement("ul", [weight, height, img, catchImg], [], {
     id: "currentUl",
@@ -202,10 +190,13 @@ function pokemonDetailsEl(pokemon) {
       "button",
       [typeName],
       ["btn", "btn-secondary", "dropdown-toggle"],
-      { onclick: "showCloseList(event)" }
+      {}
     );
+    typeList.addEventListener("click", (event) => showCloseList(event));
     typeList.setAttribute("data-identify", typeName);
-    const ul = createElement("ul", [], ["dropdown-menu" , "allTypes"], { id: typeName });
+    const ul = createElement("ul", [], ["dropdown-menu", "allTypes"], {
+      id: typeName,
+    });
     dropupType(typeName);
     const div = createElement("div", [typeList, ul], ["btn-group", "dropup"]);
     document.querySelector(".modal-footer").prepend(div);
@@ -238,12 +229,22 @@ document
   .querySelector(".close")
   .addEventListener("click", (event) => closePokemonInfo(event));
 
+document
+  .getElementById("previous")
+  .addEventListener("click", (event) => previousPokemons(event));
+document
+  .getElementById("nextPok")
+  .addEventListener("click", (event) => nextPokemons(event));
+document
+  .getElementById("userPokedex")
+  .addEventListener("click", (event) => showCloseList(event));
+
 function showCloseList(event) {
   if (currentUser === "avi") {
-    throw Error("YOU NEED TO LOGIN IN FIRST")
+    throw Error("YOU NEED TO LOGIN IN FIRST");
   }
   const pokemonList = document.getElementById(event.target.dataset.identify);
-  console.log(pokemonList)
+  console.log(pokemonList);
   if (pokemonList.dataset.display === "none") {
     pokemonList.setAttribute("data-display", "flex");
     pokemonList.style.display = "flex";
@@ -252,4 +253,3 @@ function showCloseList(event) {
   pokemonList.setAttribute("data-display", "none");
   pokemonList.style.display = "none";
 }
-
